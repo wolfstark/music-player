@@ -16,7 +16,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        12321321
+        <Header />
       </div>
     );
   }
