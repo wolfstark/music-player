@@ -1,14 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import createHistory from "history/createBrowserHistory";
+import createHistory from "history/createHashHistory";
 import configureStore from "./store";
 import RouterMap from "./router";
 import FastClick from "fastclick";
 import registerServiceWorker from "./registerServiceWorker";
 import  "./common/scss/index.scss";
 
-const history = createHistory();
+const history = createHistory({ basename: '/music-player' });
 const store = configureStore({ history });
 // Create a history of your choosing (we're using a browser history in this case)
 // Add the reducer to your store on the `router` key
