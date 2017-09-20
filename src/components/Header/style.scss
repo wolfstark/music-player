@@ -1,0 +1,39 @@
+@import "../../common/scss/fn.scss";
+.header {
+  position: relative;
+  height: 0.88rem;
+  text-align: center;
+  color: $color-theme;
+  font-size: 0;
+}
+
+.icon {
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 0.12rem;
+  width: 0.6rem;
+  height: 0.64rem;
+  margin-right: 0.18rem;
+  @include bg-image("./logo");
+  background-size: 0.6rem 0.64rem;
+}
+
+.text {
+  display: inline-block;
+  vertical-align: top;
+  line-height: 0.88rem;
+  font-size: $font-size-large;
+}
+
+.mine {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.iconMine {
+  display: block;
+  padding: 0.24rem;
+  font-size: 0.4rem;
+  color: $color-theme;
+}

@@ -10,7 +10,7 @@ const eslintFormatter = require("react-dev-utils/eslintFormatter");
 const ModuleScopePlugin = require("react-dev-utils/ModuleScopePlugin");
 const getClientEnvironment = require("./env");
 const paths = require("./paths");
-const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+// const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -166,7 +166,8 @@ module.exports = {
                 loader: require.resolve("css-loader"),
                 options: {
                   importLoaders: 1,
-                  modules: true
+                  modules: true,
+                  localIdentName: "[path][name]---[local]---[hash:base64:5]"
                 }
               },
               {
@@ -191,14 +192,14 @@ module.exports = {
               }
             ]
           },
-          {
-            test: /\.(svg)$/i,
-            loader: "svg-sprite-loader",
-            include: [
-              require.resolve("antd-mobile").replace(/warn\.js$/, ""), // 1. svg files of antd-mobile
-              path.resolve(__dirname, "../src/") // folder of svg files in your project
-            ]
-          },
+          // {
+          //   test: /\.(svg)$/i,
+          //   loader: "svg-sprite-loader",
+          //   include: [
+          //     require.resolve("antd-mobile").replace(/warn\.js$/, ""), // 1. svg files of antd-mobile
+          //     path.resolve(__dirname, "../src/") // folder of svg files in your project
+          //   ]
+          // },
           {
             test: /\.less$/,
             use: [
@@ -238,7 +239,13 @@ module.exports = {
             test: /\.scss$/,
             use: [
               require.resolve("style-loader"),
-              require.resolve("css-loader"),
+              {
+                loader: require.resolve("css-loader"),
+                options: {
+                  modules: true,
+                  localIdentName: "[path][name]---[local]---[hash:base64:5]"
+                }
+              },
               {
                 loader: require.resolve("postcss-loader"),
                 options: {
@@ -287,7 +294,7 @@ module.exports = {
               /\.gif$/,
               /\.jpe?g$/,
               /\.png$/,
-              /\.svg$/
+              // /\.svg$/,
             ],
             loader: require.resolve("file-loader"),
             options: {
@@ -305,7 +312,7 @@ module.exports = {
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
-    new SpriteLoaderPlugin(),
+    // new SpriteLoaderPlugin(),
     new InterpolateHtmlPlugin(env.raw),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({

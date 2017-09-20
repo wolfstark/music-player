@@ -11,7 +11,7 @@ const ModuleScopePlugin = require("react-dev-utils/ModuleScopePlugin");
 const paths = require("./paths");
 const getClientEnvironment = require("./env");
 const pxtorem = require("postcss-pxtorem");
-const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
+// const SpriteLoaderPlugin = require("svg-sprite-loader/plugin");
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -175,7 +175,8 @@ module.exports = {
                       options: {
                         importLoaders: 1,
                         minimize: true,
-                        sourceMap: shouldUseSourceMap
+                        sourceMap: shouldUseSourceMap,
+                        modules: true
                       }
                     },
                     {
@@ -205,14 +206,14 @@ module.exports = {
             )
             // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
           },
-          {
-            test: /\.(svg)$/i,
-            loader: "svg-sprite-loader",
-            include: [
-              require.resolve("antd-mobile").replace(/warn\.js$/, ""), // 1. svg files of antd-mobile
-              path.resolve(__dirname, "../src/") // folder of svg files in your project
-            ]
-          },
+          // {
+          //   test: /\.(svg)$/i,
+          //   loader: "svg-sprite-loader",
+          //   include: [
+          //     require.resolve("antd-mobile").replace(/warn\.js$/, ""), // 1. svg files of antd-mobile
+          //     path.resolve(__dirname, "../src/") // folder of svg files in your project
+          //   ]
+          // },
           {
             test: /\.less$/,
             use: [
@@ -249,7 +250,12 @@ module.exports = {
             test: /\.scss$/,
             use: [
               require.resolve("style-loader"),
-              require.resolve("css-loader"),
+              {
+                loader: require.resolve("css-loader"),
+                options: {
+                  modules: true
+                }
+              },
               {
                 loader: require.resolve("postcss-loader"),
                 options: {
@@ -291,7 +297,7 @@ module.exports = {
               /\.js$/,
               /\.html$/,
               /\.json$/,
-              /\.svg$/,
+              // /\.svg$/,
               /\.less/,
               /\.scss/
             ],
@@ -311,7 +317,7 @@ module.exports = {
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In production, it will be an empty string unless you specify "homepage"
     // in `package.json`, in which case it will be the pathname of that URL.
-    new SpriteLoaderPlugin(),
+    // new SpriteLoaderPlugin(),
     new InterpolateHtmlPlugin(env.raw),
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
