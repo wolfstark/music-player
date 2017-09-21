@@ -1,0 +1,21 @@
+@import "../../common/scss/fn.scss";
+@import "../../common/scss/fn.scss";
+
+.tab {
+  display: flex;
+  height: 0.88rem;
+  line-height: 0.88rem;
+  font-size: $font-size-medium;
+}
+.tabItem {
+  flex: 1;
+  text-align: center;
+}
+.tabLink {
+  padding-bottom: 0.1rem;
+  color: $color-text-l;
+}
+.tabItemActive .tabLink {
+  color: $color-theme;
+  border-bottom: 0.04rem solid $color-theme;
+}
