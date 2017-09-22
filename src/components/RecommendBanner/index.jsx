@@ -5,15 +5,21 @@ import style from "./style.scss";
 
 const RecommendBanner = props => {
   return (
-    <Banner>
-      {props.data.map((slider, index) => (
-        <BannerItem key={index}>
-          <a className={style.linkUrl} href={slider.linkUrl}>
-            <img className={style.picUrl} alt="" src={slider.picUrl} />
-          </a>
-        </BannerItem>
-      ))}
-    </Banner>
+    <div className={style.bannerWrapper}>
+      {props.data.length ? (
+        <Banner>
+          {props.data.map((slider, index) => (
+            <BannerItem key={index}>
+              <a className={style.linkUrl} href={slider.linkUrl}>
+                <img className={style.picUrl} alt="" src={slider.picUrl} />
+              </a>
+            </BannerItem>
+          ))}
+        </Banner>
+      ) : (
+        <div>{/* 加载中... */}</div>
+      )}
+    </div>
   );
 };
 RecommendBanner.props = {

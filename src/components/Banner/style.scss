@@ -3,8 +3,9 @@
   position: relative;
   width: 100%;
   overflow: hidden;
+  min-height: 0.02rem;
 }
-.sliderGroup {
+.slider-group {
   position: relative;
   overflow: hidden;
   white-space: nowrap;
@@ -14,20 +15,22 @@
   position: absolute;
   right: 0;
   left: 0;
-  bottom: 12px;
+  bottom: 0.24rem;
+  transform: translateZ(0.02rem);
   text-align: center;
   font-size: 0;
 }
 .dot {
   display: inline-block;
-  margin: 0 4px;
-  width: 8px;
-  height: 8px;
+  margin: 0 0.08rem;
+  width: 0.16rem;
+  transition: width 0.3s;
+  height: 0.16rem;
   border-radius: 50%;
   background: $color-text-l;
 }
 .dotActive {
-  width: 20px;
-  border-radius: 5px;
+  width: 0.4rem;
+  border-radius: 0.1rem;
   background: $color-text-ll;
 }
