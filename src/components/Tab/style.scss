@@ -2,10 +2,17 @@
 @import "../../common/scss/fn.scss";
 
 .tab {
+  background: $color-background;
+  z-index: 500;
+  position: fixed;
+  top: 0.88rem;
+  left: 0;
+  right: 0;
+  height: 0;
   display: flex;
   height: 0.88rem;
   line-height: 0.88rem;
-  font-size: $font-size-medium;
+  font-size: 0;
 }
 .tabItem {
   flex: 1;
@@ -14,6 +21,7 @@
 .tabLink {
   padding-bottom: 0.1rem;
   color: $color-text-l;
+  font-size: $font-size-medium;
 }
 .tabItemActive .tabLink {
   color: $color-theme;

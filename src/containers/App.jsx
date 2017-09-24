@@ -4,18 +4,11 @@ import Tab from "../components/Tab";
 import Recommend from "../containers/Recommend";
 import Singer from "../containers/Singer";
 import { login } from "../actions/player.js";
-import PureRenderMixin from "react-addons-pure-render-mixin";
 import React, { Component } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 // import PropTypes from "prop-types";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(
-      this
-    );
-  }
 
   render() {
     return (
@@ -36,7 +29,8 @@ App.propTypes = {};
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    prop: state
+    // router: state.router,
+    player:state.player
   };
 };
 

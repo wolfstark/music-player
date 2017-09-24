@@ -1,28 +1,33 @@
 import React from "react";
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 import { Banner, BannerItem } from "../../components/Banner";
 import style from "./style.scss";
+import { Component } from "react";
 
-const RecommendBanner = props => {
-  return (
-    <div className={style.bannerWrapper}>
-      {props.data.length ? (
-        <Banner>
-          {props.data.map((slider, index) => (
-            <BannerItem key={index}>
-              <a className={style.linkUrl} href={slider.linkUrl}>
-                <img className={style.picUrl} alt="" src={slider.picUrl} />
-              </a>
-            </BannerItem>
-          ))}
-        </Banner>
-      ) : (
-        <div>{/* 加载中... */}</div>
-      )}
-    </div>
-  );
-};
-RecommendBanner.props = {
-  data: propTypes.array.isRequired
-};
+class RecommendBanner extends Component {
+  static propTypes = {
+    data: PropTypes.array.isRequired
+  };
+
+  render() {
+    return (
+      <div className={style.bannerWrapper}>
+        {this.props.data.length ? (
+          <Banner>
+            {this.props.data.map((slider, index) => (
+              <BannerItem key={index}>
+                <a className={style.linkUrl} href={slider.linkUrl}>
+                  <img className={style.picUrl} alt="" src={slider.picUrl} />
+                </a>
+              </BannerItem>
+            ))}
+          </Banner>
+        ) : (
+          <div>{/* 加载中... */}</div>
+        )}
+      </div>
+    );
+  }
+}
+
 export default RecommendBanner;

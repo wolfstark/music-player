@@ -1,6 +1,11 @@
 @import "../../common/scss/fn.scss";
 .header {
-  position: relative;
+  background: $color-background;
+  z-index: 500;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 0.88rem;
   text-align: center;
   color: $color-theme;
@@ -25,7 +30,7 @@
   font-size: $font-size-large;
 }
 
-.mine { 
+.mine {
   position: absolute;
   top: 0;
   right: 0;

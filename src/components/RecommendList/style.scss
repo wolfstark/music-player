@@ -1,0 +1,46 @@
+@import "../../common/scss/fn.scss";
+.listWrapper {
+  font-size: 0;
+}
+.listTitle {
+  height: 1.3rem;
+  line-height: 1.3rem;
+  text-align: center;
+  font-size: $font-size-medium;
+  color: $color-theme;
+}
+
+.item {
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  padding: 0 0.4rem 0.4rem 0.4rem;
+}
+
+.icon {
+  flex: 0 0 1.2rem;
+  width: 1.2rem;
+  padding-right: 0.4rem;
+}
+.coverImg {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  line-height: 0.4rem;
+  overflow: hidden;
+  font-size: $font-size-medium;
+}
+
+.name {
+  margin-bottom: 0.2rem;
+  color: $color-text;
+}
+
+.desc {
+  color: $color-text-d;
+}

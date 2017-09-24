@@ -3,10 +3,20 @@
 body,
 html {
   font-family: "PingFang SC", "STHeitiSC-Light", "Helvetica-Light", arial,
-  sans-serif, "Droid Sans Fallback";
+    sans-serif, "Droid Sans Fallback";
   line-height: 1;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   background: $color-background;
   color: $color-text;
 }
+::-webkit-scrollbar {
+  width: 0px;
+  opacity: 0;
+  display: none;
+}
+// :global {
+//   .scroll-content {
+//     padding-top: 0.88rem*2;
+//   }
+// }

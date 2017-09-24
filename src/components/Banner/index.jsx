@@ -3,18 +3,18 @@ import BannerItem from "./BannerItem";
 import style from "./style.scss";
 import classnames from "classnames/bind";
 import { Component } from "react";
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 import BScroll from "better-scroll";
 
 const cx = classnames.bind(style);
 
 class Banner extends Component {
-  static props = {
-    loop: propTypes.bool,
-    autoPlay: propTypes.bool,
-    interval: propTypes.number,
-    showDot: propTypes.bool,
-    click: propTypes.bool
+  static propTypes = {
+    loop: PropTypes.bool,
+    autoPlay: PropTypes.bool,
+    interval: PropTypes.number,
+    showDot: PropTypes.bool,
+    click: PropTypes.bool
   };
   static defaultProps = {
     loop: true,
@@ -52,16 +52,14 @@ class Banner extends Component {
     );
   }
   componentDidMount() {
-    setTimeout(() => {
-      this.setSliderWidth();
-      if (this.props.showDot) {
-        this.initDots();
-      }
-      this.initSlider();
-      if (this.props.autoPlay) {
-        this.play();
-      }
-    }, 20);
+    this.setSliderWidth();
+    if (this.props.showDot) {
+      this.initDots();
+    }
+    this.initSlider();
+    if (this.props.autoPlay) {
+      this.play();
+    }
   }
   setSliderWidth(isResize) {
     this.children = this.refs.sliderGroup.children;
@@ -96,7 +94,11 @@ class Banner extends Component {
         clearTimeout(this.timer);
       }
     });
-
+    this.slider.on("touchEnd", () => {
+      if (this.props.autoPlay) {
+        this.play();
+      }
+    });
     this.slider.on("scrollEnd", this.onScrollEnd.bind(this));
   }
   onScrollEnd() {
@@ -126,6 +128,9 @@ class Banner extends Component {
     this.setState({
       dots: arr
     });
+  }
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 }
 
