@@ -16,7 +16,7 @@ class Recommend extends Component {
   }
   render() {
     return (
-      <div>
+      <div >
         <RecommendBanner data={this.state.recommends} />
         <RecommendList
           clickItemHandle={this.clickItemHandle.bind(this)}
