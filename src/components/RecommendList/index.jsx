@@ -23,7 +23,7 @@ class RecommendList extends PureComponent {
                 className={style.item}
               >
                 <div className={style.icon}>
-                  <LazyLoad height="1.2rem">
+                  <LazyLoad once={true} height="1.2rem">
                     <img src={item.imgurl} alt="" className={style.coverImg} />
                   </LazyLoad>
                 </div>

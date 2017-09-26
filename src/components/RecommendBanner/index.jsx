@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Banner, BannerItem } from "../../components/Banner";
 import style from "./style.scss";
-import { Component } from "react";
+import { PureComponent } from "react";
 
-class RecommendBanner extends Component {
+class RecommendBanner extends PureComponent {
   static propTypes = {
     data: PropTypes.array.isRequired
   };

@@ -3,7 +3,6 @@ import RecommendBanner from "../../components/RecommendBanner";
 import RecommendList from "../../components/RecommendList";
 import { getRecommend, getDiscList } from "../../api/recommend.js";
 import { ERR_OK } from "../../api/config.js";
-// import { actionCreator } from "actionCreatorPath";
 import React, { Component } from "react";
 
 class Recommend extends Component {
