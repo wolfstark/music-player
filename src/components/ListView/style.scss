@@ -1,0 +1,75 @@
+@import "../../common/scss/fn.scss";
+
+.listview {
+  position: relative;
+  background: $color-background;
+  padding-top: 0.88rem*2;
+}
+.listGroup {
+  padding-bottom: 0.6rem;
+}
+.listGroupTitle {
+  height: 0.6rem;
+  line-height: 0.6rem;
+  padding-left: 0.4rem;
+  font-size: $font-size-small;
+  color: $color-text-l;
+  background: $color-highlight-background;
+}
+.listGroupItem {
+  display: flex;
+  align-items: center;
+  padding: 0.4rem 0 0 0.6rem;
+}
+.avatar {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+}
+.name {
+  margin-left: 0.4rem;
+  color: $color-text-l;
+  font-size: $font-size-medium;
+}
+.listShortcut {
+  position: absolute;
+  z-index: 30;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.4rem;
+  padding: 0.4rem 0;
+  border-radius: 0.2rem;
+  text-align: center;
+  background: $color-background-d;
+  font-family: Helvetica;
+}
+.item {
+  padding: 0.06rem;
+  line-height: 1;
+  color: $color-text-l;
+  font-size: $font-size-small;
+}
+.itemCurrent {
+  color: $color-theme;
+}
+.listFixed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+.fixedTitle {
+  height: 0.6rem;
+  line-height: 0.6rem;
+  padding-left: 0.4rem;
+  font-size: $font-size-small;
+  color: $color-text-l;
+  background: $color-highlight-background;
+}
+.loadingContainer {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}

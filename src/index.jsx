@@ -8,9 +8,6 @@ import FastClick from "fastclick";
 import registerServiceWorker from "./registerServiceWorker";
 import "./common/scss/index.scss";
 
-document.documentElement.style.fontSize = `${document.documentElement
-  .clientWidth / 7.5}px`;
-
 const history = createHistory({
   basename: process.env.NODE_ENV === "development" ? "" : "/music-player"
 });
