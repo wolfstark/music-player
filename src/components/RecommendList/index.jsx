@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import style from "./style.scss";
 import LazyLoad from "react-lazyload";
 import Loading from "../Loading";
+import Placeholder from "../Placeholder";
 
 class RecommendList extends PureComponent {
   static propTypes = {
@@ -23,7 +24,10 @@ class RecommendList extends PureComponent {
                 className={style.item}
               >
                 <div className={style.icon}>
-                  <LazyLoad once={true} height="1.2rem">
+                  <LazyLoad
+                    once={true}
+                    placeholder={<Placeholder height="1.2rem" />}
+                  >
                     <img src={item.imgurl} alt="" className={style.coverImg} />
                   </LazyLoad>
                 </div>

@@ -10,7 +10,6 @@ class SingerList extends Component {
     super(props, context);
     this.state = {
       singers: [],
-      shortcutList: []
     };
     this.HOT_SINGER_LEN = 10;
     this.HOT_NAME = "热门";
@@ -20,7 +19,6 @@ class SingerList extends Component {
       <div>
         <ListView
           data={this.state.singers}
-          shortcutList={this.state.shortcutList}
         />
       </div>
     );
