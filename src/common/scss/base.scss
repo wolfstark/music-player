@@ -10,7 +10,7 @@ html {
   -webkit-tap-highlight-color: transparent;
   background: $color-background;
   color: $color-text;
-  -webkit-overflow-scrolling: touch;
+  // -webkit-overflow-scrolling: touch;
 }
 ::-webkit-scrollbar {
   width: 0px;

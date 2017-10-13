@@ -5,8 +5,6 @@ import LazyLoad from "react-lazyload";
 import style from "./style.scss";
 import Placeholder from "../Placeholder";
 import { getData } from "../../common/js/dom";
-import { ease } from "../../common/js/ease";
-import { offset } from "../../common/js/dom";
 import classnames from "classnames/bind";
 
 const cx = classnames.bind(style);
@@ -16,46 +14,49 @@ class ListView extends PureComponent {
   };
   constructor(props, context) {
     super(props, context);
-    this.ANCHOR_HEIGHT = 18; //0.36rem
-    this.TITLE_HEIGHT = 30; //0.3rem
+    const SIZE = getComputedStyle(document.documentElement).fontSize.slice(
+      0,
+      -2
+    );
+    const me = this;
+
+    this.ANCHOR_HEIGHT = 0.36 * SIZE; //0.36rem
+    this.TITLE_HEIGHT = 0.3 * SIZE; //0.3rem
     // this.probeType = 3;
     // this.listenScroll = true;
     this.touch = {};
     this.listHeight = [];
-    // this._scrollY = 0;
+    let _diff = -1;
     let _scrollY = 0;
-    const me = this;
     Object.defineProperty(this, "scrollY", {
       get() {
         return _scrollY;
       },
       set(val) {
-        console.log("scrollX change", val);
-        // if (_scrollY !== val) {
         _scrollY = val;
-        me.scrollYCB(_scrollY);
-        // }
+        me.scrollYObserver(_scrollY);
+      }
+    });
+    Object.defineProperty(this, "diff", {
+      get() {
+        return _diff;
+      },
+      set(val) {
+        _diff = val;
+        me.diffObserver(_diff);
       }
     });
     this.state = {
       shortcutList: [],
       fixedTitle: "",
-      // scrollY: 0,
-      currentIndex: 0,
-      diff: -1
-      // set scrollY(val) {
-      //   this._scrollY = val;
-      // },
-      // get scrollY() {
-      //   return this._scrollY;
-      // }
+      currentIndex: 0
     };
   }
-  // componentWillUpdate(nextProps, nextState) {
-  //   if (nextState.scrollY !== this.scrollY) {
-  //     this.scrollYCB(nextState.scrollY);
-  //   }
-  // }
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.currentIndex !== this.state.currentIndex) {
+      this.getFixedTitle();
+    }
+  }
   componentDidMount() {
     window.addEventListener("scroll", this.handleScroll.bind(this));
   }
@@ -67,7 +68,6 @@ class ListView extends PureComponent {
   componentDidUpdate() {
     this._calculateHeight();
     this.ticking = false;
-    console.log("ticking finish");
   }
   render() {
     return (
@@ -121,37 +121,41 @@ class ListView extends PureComponent {
       </div>
     );
   }
-  scrollYCB(newY) {
+  scrollYObserver(newY) {
     const listHeight = this.listHeight;
-    if (newY < 0) newY = 0;
-    // 当滚动到顶部，newY>0
-    // console.log(newY)
-    // if (newY <= 0) {
-    //   this.setState({ currentIndex: 0 });
-    //   console.log("currentIndex", 0, 1);
-    //   return;
-    // }
+    if (newY <= 0) newY = 1;
+
     // 在中间部分滚动
     for (let i = 0; i < listHeight.length - 1; i++) {
       let height1 = listHeight[i];
       let height2 = listHeight[i + 1];
       if (newY >= height1 && newY < height2) {
-        this.setState({ currentIndex: i, diff: height2 - newY });
-        console.log("currentIndex", i, 2);
+        //, diff: height2 - newY
+        if (this.state.currentIndex === i) {
+          this.ticking = false; // 没必要更新
+        } else {
+          this.setState({ currentIndex: i });
+          this.diff = height2 - newY;
+        }
         return;
       }
     }
     // 当滚动到底部，且-newY大于最后一个元素的上限
     this.setState({ currentIndex: listHeight.length - 2 });
   }
+  diffObserver(newVal) {
+    const fixedTop =
+      newVal > 0 && newVal < this.TITLE_HEIGHT ? newVal - this.TITLE_HEIGHT : 0;
+    // if (this.fixedTop === fixedTop) {
+    //   return;
+    // }
+    // this.fixedTop = fixedTop;
+    this.refs.fixed.style.transform = `translate3d(0,${fixedTop}px,0)`;
+  }
   handleScroll() {
-    console.log("emit scroll", this.ticking);
     if (!this.ticking) {
       requestAnimationFrame(() => {
-        // this.setState({ scrollY: window.scrollY });
-        // this.ticking = true;
         this.scrollY = window.scrollY;
-        // this.ticking = false;
       });
     }
     this.ticking = true;
@@ -168,7 +172,7 @@ class ListView extends PureComponent {
     }
   }
   getFixedTitle() {
-    if (this.scrollY > 0) {
+    if (this.scrollY < 0) {
       return "";
     }
     return this.props.data[this.state.currentIndex]
@@ -180,79 +184,41 @@ class ListView extends PureComponent {
       return group.title.substr(0, 1);
     });
   }
-  onShortcutTouchStart(event: Event) {
+  onShortcutTouchStart(event: TouchEvent) {
     event.stopPropagation();
     event.preventDefault();
-    let anchorIndex = getData(event.target, "index");
-    let firstTouch = event.touches[0];
-    this.touch.y1 = firstTouch.pageY;
+    const anchorIndex = parseInt(getData(event.target, "index"), 10);
+    const firstTouch = event.touches[0];
+    this.touch.y1 = firstTouch.clientY;
     this.touch.anchorIndex = anchorIndex;
     // console.log(this.touch);
     this._scrollTo(anchorIndex);
   }
-  onShortcutTouchMove(event: Event) {
+  onShortcutTouchMove(event: TouchEvent) {
     event.stopPropagation();
     event.preventDefault();
-    let firstTouch = event.touches[0];
-    this.touch.y2 = firstTouch.pageY;
-    let delta = ((this.touch.y2 - this.touch.y1) / this.ANCHOR_HEIGHT) | 0;
-    let anchorIndex = parseInt(this.touch.anchorIndex, 10) + delta;
-    // console.log(this.touch);
+    const firstTouch = event.touches[0];
+    this.touch.y2 = firstTouch.clientY;
+    if (
+      this.touch.y2 < 0 ||
+      this.touch.y2 > document.documentElement.clientHeight
+    )
+      return; // FIXME: safari连续触发事件时有可能返回一个负数或者远超屏幕的最大值
+    const delta = ((this.touch.y2 - this.touch.y1) / this.ANCHOR_HEIGHT) | 0;
+    const anchorIndex = this.touch.anchorIndex + delta;
 
-    // this._scrollTo(anchorIndex);
+    if (this.state.currentIndex !== anchorIndex) this._scrollTo(anchorIndex);
   }
-  _scrollTo(index) {
+  _scrollTo(index: Number) {
     if (index < 0) {
       index = 0;
     } else if (index > this.listHeight.length - 2) {
       index = this.listHeight.length - 2;
     }
-    // this.setState({ scrollY: this.listHeight[index] });
-    this.scrollY = this.listHeight[index];
-    // this.scrollToElement(this.refs.listGroup.children[index], 0);
-  }
-  scrollToElement(el, time) {
-    let pos = offset(el);
-    pos.left -= this.wrapperOffset.left;
-    pos.top -= this.wrapperOffset.top;
-
-    pos.left =
-      pos.left > 0
-        ? 0
-        : pos.left < this.maxScrollX ? this.maxScrollX : pos.left;
-    pos.top =
-      pos.top > 0 ? 0 : pos.top < this.maxScrollY ? this.maxScrollY : pos.top;
-
-    if (this.options.wheel) {
-      pos.top = Math.round(pos.top / this.itemHeight) * this.itemHeight;
-    }
-
-    this.scrollTo(pos.left, pos.top, time);
-  }
-  scrollTo(x, y, time = 0, easing = ease.bounce) {
-    this.isInTransition = false;
-
-    if (!time || this.options.useTransition) {
-      this._transitionTimingFunction(easing.style);
-      this._transitionTime(time);
-      this._translate(x, y);
-
-      if (time && this.options.probeType === 3) {
-        this._startProbe();
-      }
-
-      if (this.options.wheel) {
-        if (y > 0) {
-          this.selectedIndex = 0;
-        } else if (y < this.maxScrollY) {
-          this.selectedIndex = this.items.length - 1;
-        } else {
-          this.selectedIndex = Math.abs(y / this.itemHeight) | 0;
-        }
-      }
-    } else {
-      this._animate(x, y, time, easing.fn);
-    }
+    // this.scrollY = this.listHeight[index];
+    console.log("scrollTop:", this.listHeight[index]);
+    document.documentElement.scrollTop = this.listHeight[index];
+    document.body.scrollTop = this.listHeight[index];
   }
 }
 

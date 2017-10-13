@@ -1,8 +1,8 @@
 @import "../../common/scss/fn.scss";
 .listview {
   position: relative;
-  background: $color-background;
-  padding-top: 0.88rem*2;
+  // background: $color-background;
+  padding-top: $head-placehold-height;
 }
 
 .listGroup {
@@ -62,8 +62,8 @@
 }
 
 .listFixed {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: $head-placehold-height;
   left: 0;
   width: 100%;
 }
