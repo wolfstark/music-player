@@ -1,6 +1,5 @@
 @import "../../common/scss/fn.scss";
 .listview {
-  position: relative;
   // background: $color-background;
   padding-top: $head-placehold-height;
 }
@@ -67,7 +66,9 @@
   left: 0;
   width: 100%;
 }
-
+.listFixedHide {
+  display: none;
+}
 .fixedTitle {
   height: 0.6rem;
   line-height: 0.6rem;

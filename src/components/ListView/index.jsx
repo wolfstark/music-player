@@ -21,7 +21,7 @@ class ListView extends PureComponent {
     const me = this;
 
     this.ANCHOR_HEIGHT = 0.36 * SIZE; //0.36rem
-    this.TITLE_HEIGHT = 0.3 * SIZE; //0.3rem
+    this.TITLE_HEIGHT = 0.6 * SIZE; //0.3rem
     // this.probeType = 3;
     // this.listenScroll = true;
     this.touch = {};
@@ -48,22 +48,25 @@ class ListView extends PureComponent {
     });
     this.state = {
       shortcutList: [],
-      fixedTitle: "",
       currentIndex: 0
     };
   }
-  componentWillUpdate(nextProps, nextState) {
-    if (nextState.currentIndex !== this.state.currentIndex) {
-      this.getFixedTitle();
-    }
-  }
+  // componentWillUpdate(nextProps, nextState) {
+  //   if (nextState.currentIndex !== this.state.currentIndex) {
+  //     this.getFixedTitle();
+  //   }
+  // }
   componentDidMount() {
-    window.addEventListener("scroll", this.handleScroll.bind(this));
+    this.handleScroll = this.handleScroll.bind(this);
+    window.addEventListener("scroll", this.handleScroll);
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.data !== nextProps.data) {
       this.setState({ shortcutList: this.getShortcutList(nextProps.data) });
     }
+  }
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
   }
   componentDidUpdate() {
     this._calculateHeight();
@@ -72,51 +75,62 @@ class ListView extends PureComponent {
   render() {
     return (
       <div className={style.listview}>
-        <ul ref="listGroup">
-          {this.props.data.map((group, index) => (
-            <li key={index} className={style.listGroup}>
-              <h2 className={style.listGroupTitle}>{group.title}</h2>
-              <ul>
-                {group.items.map((item, index) => (
-                  <li key={index} className={style.listGroupItem}>
-                    <LazyLoad
-                      once={true}
-                      placeholder={<Placeholder height="1rem" width="1rem" />}
-                    >
-                      <img className={style.avatar} alt="" src={item.avatar} />
-                    </LazyLoad>
-                    <span className={style.name}>{item.name}</span>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-        <div
+        {this.props.data.length ? (
+          <ul ref="listGroup">
+            {this.props.data.map((group, index) => (
+              <li key={index} className={style.listGroup}>
+                <h2 className={style.listGroupTitle}>{group.title}</h2>
+                <ul>
+                  {group.items.map((item, index) => (
+                    <li key={index} className={style.listGroupItem}>
+                      <LazyLoad
+                        once={true}
+                        placeholder={<Placeholder height="1rem" width="1rem" />}
+                      >
+                        <img
+                          className={style.avatar}
+                          alt=""
+                          src={item.avatar}
+                        />
+                      </LazyLoad>
+                      <span className={style.name}>{item.name}</span>
+                    </li>
+                  ))}
+                </ul>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className={style.loadingContainer}>
+            <Loading />
+          </div>
+        )}
+        <ul
           className={style.listShortcut}
           onTouchStart={this.onShortcutTouchStart.bind(this)}
           onTouchMove={this.onShortcutTouchMove.bind(this)}
         >
-          <ul>
-            {this.state.shortcutList.map((item, index) => (
-              <li
-                key={index}
-                className={cx({
-                  item: true,
-                  itemCurrent: this.state.currentIndex === index
-                })}
-                data-index={index}
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className={style.listFixed} ref="fixed" v-show="fixedTitle">
-          <div className={style.fixedTitle}>{this.state.fixedTitle} </div>
-        </div>
-        <div v-show="!data.length" className={style.loadingContainer}>
-          <Loading />
+          {this.state.shortcutList.map((item, index) => (
+            <li
+              key={index}
+              className={cx({
+                item: true,
+                itemCurrent: this.state.currentIndex === index
+              })}
+              data-index={index}
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+        <div
+          className={cx({
+            listFixed: true,
+            listFixedHide: !this.getFixedTitle()
+          })}
+          ref="fixed"
+        >
+          <div className={style.fixedTitle}>{this.getFixedTitle()} </div>
         </div>
       </div>
     );
@@ -135,8 +149,8 @@ class ListView extends PureComponent {
           this.ticking = false; // 没必要更新
         } else {
           this.setState({ currentIndex: i });
-          this.diff = height2 - newY;
         }
+        this.diff = height2 - newY;
         return;
       }
     }
@@ -146,10 +160,7 @@ class ListView extends PureComponent {
   diffObserver(newVal) {
     const fixedTop =
       newVal > 0 && newVal < this.TITLE_HEIGHT ? newVal - this.TITLE_HEIGHT : 0;
-    // if (this.fixedTop === fixedTop) {
-    //   return;
-    // }
-    // this.fixedTop = fixedTop;
+
     this.refs.fixed.style.transform = `translate3d(0,${fixedTop}px,0)`;
   }
   handleScroll() {
@@ -162,7 +173,7 @@ class ListView extends PureComponent {
   }
   _calculateHeight() {
     this.listHeight = [];
-    const list = this.refs.listGroup.children;
+    const list = (this.refs.listGroup && this.refs.listGroup.children) || [];
     let height = 0;
     this.listHeight.push(height);
     for (let i = 0; i < list.length; i++) {
@@ -216,7 +227,6 @@ class ListView extends PureComponent {
       index = this.listHeight.length - 2;
     }
     // this.scrollY = this.listHeight[index];
-    console.log("scrollTop:", this.listHeight[index]);
     document.documentElement.scrollTop = this.listHeight[index];
     document.body.scrollTop = this.listHeight[index];
   }
