@@ -1,9 +1,11 @@
-import { connect } from "react-redux";
-import React, { Component } from "react";
-import ListView from "../../components/ListView";
-import { getSingerList } from "../../api/singer";
-import { ERR_OK } from "../../api/config.js";
-import Singer from "../../common/js/singer";
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
+import ListView from '../../components/ListView';
+import { getSingerList } from '../../api/singer';
+import { ERR_OK } from '../../api/config.js';
+import Singer from '../../common/js/singer';
+import SingerDetail from '../SingerDetail';
+import { Route } from 'react-router-dom';
 
 class SingerList extends Component {
   constructor(props, context) {
@@ -12,14 +14,13 @@ class SingerList extends Component {
       singers: [],
     };
     this.HOT_SINGER_LEN = 10;
-    this.HOT_NAME = "热门";
+    this.HOT_NAME = '热门';
   }
   render() {
     return (
       <div>
-        <ListView
-          data={this.state.singers}
-        />
+        <ListView data={this.state.singers} />
+        {/* <Route component={SingerDetail} /> */}
       </div>
     );
   }
@@ -35,15 +36,15 @@ class SingerList extends Component {
     let map = {
       hot: {
         title: this.HOT_NAME,
-        items: []
-      }
+        items: [],
+      },
     };
     list.forEach((item, index) => {
       if (index < this.HOT_SINGER_LEN) {
         map.hot.items.push(
           new Singer({
             name: item.Fsinger_name,
-            id: item.Fsinger_mid
+            id: item.Fsinger_mid,
           })
         );
       }
@@ -51,13 +52,13 @@ class SingerList extends Component {
       if (!map[key]) {
         map[key] = {
           title: key,
-          items: []
+          items: [],
         };
       }
       map[key].items.push(
         new Singer({
           name: item.Fsinger_name,
-          id: item.Fsinger_mid
+          id: item.Fsinger_mid,
         })
       );
     });
@@ -81,13 +82,13 @@ class SingerList extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    prop: state.prop
+    prop: state.prop,
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    dispatch1: () => {}
+    dispatch1: () => {},
   };
 };
 
