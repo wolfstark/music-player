@@ -5,9 +5,14 @@ import { getSingerList } from '../../api/singer';
 import { ERR_OK } from '../../api/config.js';
 import Singer from '../../common/js/singer';
 import SingerDetail from '../SingerDetail';
-import { Route } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
+// import { Route } from 'react-router-dom';
 
 class SingerList extends Component {
+  static propTypes = {
+    history: PropTypes.object.isRequired,
+  };
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -19,8 +24,11 @@ class SingerList extends Component {
   render() {
     return (
       <div>
-        <ListView data={this.state.singers} />
-        {/* <Route component={SingerDetail} /> */}
+        <ListView
+          select={this.selectSinger.bind(this)}
+          data={this.state.singers}
+        />
+        <SingerDetail />
       </div>
     );
   }
@@ -78,9 +86,14 @@ class SingerList extends Component {
     });
     return hot.concat(ret);
   }
+  selectSinger(singer) {
+    this.props.history.push(`/singer/${singer.id}`);
+    this.setSinger(singer);
+  }
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(state);
   return {
     prop: state.prop,
   };

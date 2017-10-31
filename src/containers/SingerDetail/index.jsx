@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import MusicList from '../../components/MusicList';
 import { ERR_OK } from '../../api/config';
 import { getSingerDetail } from '../../api/singer';
-import { createSong } from '../../common/js/song';
+// import { createSong } from '../../common/js/song';
 
 // import { actionCreator } from 'actionCreatorPath';
 
@@ -15,9 +15,9 @@ class SingerDetail extends Component {
   static defaultProps = {
     songs: [],
   };
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
   componentDidMount() {
     this._getDetail();
   }
@@ -27,19 +27,20 @@ class SingerDetail extends Component {
   }
 
   _getDetail() {
-    if (!this.singer.id) {
-      this.$router.push('/singer');
-      return;
-    }
-    getSingerDetail(this.singer.id).then(res => {
-      if (res.code === ERR_OK) {
-        this.songs = this._normalizeSongs(res.data.list);
-      }
-    });
+    // if (!this.singer.id) {
+    //   this.$router.push('/singer');
+    //   return;
+    // }
+    // getSingerDetail(this.singer.id).then(res => {
+    //   if (res.code === ERR_OK) {
+    //     this.songs = this._normalizeSongs(res.data.list);
+    //   }
+    // });
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log(state);
   return {
     // prop: state.prop,
   };

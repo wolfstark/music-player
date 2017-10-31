@@ -1,16 +1,17 @@
-import React, { PureComponent } from "react";
-import Loading from "../Loading";
-import PropTypes from "prop-types";
-import LazyLoad from "react-lazyload";
-import style from "./style.scss";
-import Placeholder from "../Placeholder";
-import { getData } from "../../common/js/dom";
-import classnames from "classnames/bind";
+import React, { PureComponent } from 'react';
+import Loading from '../Loading';
+import PropTypes from 'prop-types';
+import LazyLoad from 'react-lazyload';
+import style from './style.scss';
+import Placeholder from '../Placeholder';
+import { getData } from '../../common/js/dom';
+import classnames from 'classnames/bind';
 
 const cx = classnames.bind(style);
 class ListView extends PureComponent {
   static propTypes = {
-    data: PropTypes.array.isRequired
+    data: PropTypes.array.isRequired,
+    select: PropTypes.func.isRequired,
   };
   constructor(props, context) {
     super(props, context);
@@ -28,27 +29,27 @@ class ListView extends PureComponent {
     this.listHeight = [];
     let _diff = -1;
     let _scrollY = 0;
-    Object.defineProperty(this, "scrollY", {
+    Object.defineProperty(this, 'scrollY', {
       get() {
         return _scrollY;
       },
       set(val) {
         _scrollY = val;
         me.scrollYObserver(_scrollY);
-      }
+      },
     });
-    Object.defineProperty(this, "diff", {
+    Object.defineProperty(this, 'diff', {
       get() {
         return _diff;
       },
       set(val) {
         _diff = val;
         me.diffObserver(_diff);
-      }
+      },
     });
     this.state = {
       shortcutList: [],
-      currentIndex: 0
+      currentIndex: 0,
     };
   }
   // componentWillUpdate(nextProps, nextState) {
@@ -58,7 +59,7 @@ class ListView extends PureComponent {
   // }
   componentDidMount() {
     this.handleScroll = this.handleScroll.bind(this);
-    window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll);
   }
   componentWillReceiveProps(nextProps) {
     if (this.props.data !== nextProps.data) {
@@ -66,7 +67,7 @@ class ListView extends PureComponent {
     }
   }
   componentWillUnmount() {
-    window.removeEventListener("scroll", this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll);
   }
   componentDidUpdate() {
     this._calculateHeight();
@@ -113,9 +114,10 @@ class ListView extends PureComponent {
           {this.state.shortcutList.map((item, index) => (
             <li
               key={index}
+              onClick={this.selectItem.bind(this, item)}
               className={cx({
                 item: true,
-                itemCurrent: this.state.currentIndex === index
+                itemCurrent: this.state.currentIndex === index,
               })}
               data-index={index}
             >
@@ -126,7 +128,7 @@ class ListView extends PureComponent {
         <div
           className={cx({
             listFixed: true,
-            listFixedHide: !this.getFixedTitle()
+            listFixedHide: !this.getFixedTitle(),
           })}
           ref="fixed"
         >
@@ -184,11 +186,11 @@ class ListView extends PureComponent {
   }
   getFixedTitle() {
     if (this.scrollY < 0) {
-      return "";
+      return '';
     }
     return this.props.data[this.state.currentIndex]
       ? this.props.data[this.state.currentIndex].title
-      : "";
+      : '';
   }
   getShortcutList(data) {
     return data.map(group => {
@@ -198,7 +200,7 @@ class ListView extends PureComponent {
   onShortcutTouchStart(event: TouchEvent) {
     event.stopPropagation();
     event.preventDefault();
-    const anchorIndex = parseInt(getData(event.target, "index"), 10);
+    const anchorIndex = parseInt(getData(event.target, 'index'), 10);
     const firstTouch = event.touches[0];
     this.touch.y1 = firstTouch.clientY;
     this.touch.anchorIndex = anchorIndex;
@@ -229,6 +231,9 @@ class ListView extends PureComponent {
     // this.scrollY = this.listHeight[index];
     document.documentElement.scrollTop = this.listHeight[index];
     document.body.scrollTop = this.listHeight[index];
+  }
+  selectItem(item) {
+    this.props.select(item);
   }
 }
 
