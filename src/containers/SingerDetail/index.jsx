@@ -27,22 +27,21 @@ class SingerDetail extends Component {
   }
 
   _getDetail() {
-    // if (!this.singer.id) {
-    //   this.$router.push('/singer');
-    //   return;
-    // }
-    // getSingerDetail(this.singer.id).then(res => {
-    //   if (res.code === ERR_OK) {
-    //     this.songs = this._normalizeSongs(res.data.list);
-    //   }
-    // });
+    if (!this.singer.id) {
+      this.$router.push('/singer');
+      return;
+    }
+    getSingerDetail(this.singer.id).then(res => {
+      if (res.code === ERR_OK) {
+        this.songs = this._normalizeSongs(res.data.list);
+      }
+    });
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state);
   return {
-    // prop: state.prop,
+    singer: state.player.singer,
   };
 };
 

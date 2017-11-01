@@ -7,11 +7,12 @@ import Singer from '../../common/js/singer';
 import SingerDetail from '../SingerDetail';
 import PropTypes from 'prop-types';
 
-// import { Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 class SingerList extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired,
   };
   constructor(props, context) {
     super(props, context);
@@ -22,13 +23,14 @@ class SingerList extends Component {
     this.HOT_NAME = '热门';
   }
   render() {
+    const { url } = this.props.match;
     return (
       <div>
         <ListView
           select={this.selectSinger.bind(this)}
           data={this.state.singers}
         />
-        <SingerDetail />
+        <Route path={`${url}/:id`} component={SingerDetail} />
       </div>
     );
   }
@@ -93,7 +95,6 @@ class SingerList extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state);
   return {
     prop: state.prop,
   };
@@ -101,7 +102,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    dispatch1: () => {},
   };
 };
 
