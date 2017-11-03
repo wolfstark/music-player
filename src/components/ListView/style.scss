@@ -1,7 +1,7 @@
 @import "../../common/scss/fn.scss";
 .listview {
   // background: $color-background;
-  padding-top: $head-placehold-height;
+  padding-top: $height-placehold-top;
 }
 
 .listGroup {
@@ -62,7 +62,7 @@
 
 .listFixed {
   position: fixed;
-  top: $head-placehold-height;
+  top: $height-placehold-top;
   left: 0;
   width: 100%;
 }

@@ -1,8 +1,6 @@
-import * as actionTypes from "../constants/player";
+import * as actionTypes from '../constants/player';
 
-export function login(data) {
-  return {
-    type: actionTypes.SET_CURRENT_INDEX,
-    data
-  };
-}
+export const setSinger = singer => ({
+  type: actionTypes.SET_SINGER,
+  payload: singer,
+});

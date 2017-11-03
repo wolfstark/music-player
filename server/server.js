@@ -9,7 +9,7 @@ router.get("/", function(ctx, next) {
   ctx.body = "Hello World!";
 });
 router.get("/api/getDiscList", async function(ctx, next) {
-  // console.log(ctx.query);
+  console.log(ctx.query);
   const url = "https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg";
   const response = await axios.get(url, {
     headers: {

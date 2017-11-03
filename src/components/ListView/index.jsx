@@ -83,7 +83,11 @@ class ListView extends PureComponent {
                 <h2 className={style.listGroupTitle}>{group.title}</h2>
                 <ul>
                   {group.items.map((item, index) => (
-                    <li key={index} className={style.listGroupItem}>
+                    <li
+                      key={index}
+                      className={style.listGroupItem}
+                      onClick={this.selectItem.bind(this, item)}
+                    >
                       <LazyLoad
                         once={true}
                         placeholder={<Placeholder height="1rem" width="1rem" />}
@@ -114,7 +118,6 @@ class ListView extends PureComponent {
           {this.state.shortcutList.map((item, index) => (
             <li
               key={index}
-              onClick={this.selectItem.bind(this, item)}
               className={cx({
                 item: true,
                 itemCurrent: this.state.currentIndex === index,

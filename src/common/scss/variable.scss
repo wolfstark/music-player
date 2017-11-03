@@ -20,4 +20,8 @@ $font-size-large: 0.36rem;
 $font-size-large-x: 0.44rem;
 
 //样式布局定义
-$head-placehold-height: 0.88rem*2;
+$height-placehold-top: 0.88rem*2;
+
+//层级定义
+$z-index-base: 500;
+$z-index-Mask: 600;

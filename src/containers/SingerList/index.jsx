@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { bindActionCreators } from 'redux';
+import * as playersActions from '../../actions/player';
+import { Route } from 'react-router-dom';
 import ListView from '../../components/ListView';
 import { getSingerList } from '../../api/singer';
 import { ERR_OK } from '../../api/config.js';
 import Singer from '../../common/js/singer';
 import SingerDetail from '../SingerDetail';
-import PropTypes from 'prop-types';
-
-import { Route } from 'react-router-dom';
 
 class SingerList extends Component {
   static propTypes = {
@@ -90,18 +91,19 @@ class SingerList extends Component {
   }
   selectSinger(singer) {
     this.props.history.push(`/singer/${singer.id}`);
-    this.setSinger(singer);
+    this.props.setSingerAction(singer);
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    prop: state.prop,
+    // prop: state.prop,
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    setSingerAction: bindActionCreators(playersActions, dispatch).setSinger,
   };
 };
 

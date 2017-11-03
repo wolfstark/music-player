@@ -1,13 +1,21 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { prefixStyle } from '../../common/js/dom';
+// import { playlistMixin } from '../../common/js/mixin';
+import Loading from '../Loading';
+import style from './style.scss';
+import SongList from '../SongList';
+import classnames from 'classnames/bind';
 
-class MusicList extends Component {
+const cn = classnames.bind(style);
+class MusicList extends PureComponent {
   static propTypes = {
     singer: PropTypes.object,
-    history: PropTypes.object.isRequired,
+    songs: PropTypes.array,
   };
   static defaultProps = {
     singer: {},
+    songs: [],
   };
   // constructor(props) {
   //   super(props);
@@ -19,8 +27,6 @@ class MusicList extends Component {
 
   componentWillReceiveProps(nextProps) {}
 
-  shouldComponentUpdate(nextProps, nextState) {}
-
   componentWillUpdate(nextProps, nextState) {}
 
   componentDidUpdate(prevProps, prevState) {}
@@ -28,22 +34,45 @@ class MusicList extends Component {
   componentWillUnmount() {}
 
   render() {
-    return <div />;
-  }
-  _getDetail() {
-    const { history, singer } = this.props;
-    if (!singer.id) {
-      history.push('/singer');
-      return;
-    }
-    getSingerDetail(this.singer.id).then(res => {
-      if (res.code === ERR_OK) {
-        this.songs = this._normalizeSongs(res.data.list);
-      }
-    });
+    const { songs, singer } = this.props;
+    const { name, avatar } = singer;
+    return (
+      <div className={style.musicList}>
+        <div className={style.back}>
+          <i className={cn('icon-back', style.iconBack)} />
+        </div>
+        <h1 className={style.title}>{name}</h1>
+        <div
+          className={style.bgImage}
+          style={{ backgroundImage: `url(${avatar})` }}
+          ref="bgImage"
+        >
+          <div className={style.playWrapper}>
+            <div
+              ref="playBtn"
+              className={cn({ play: true, playHide: songs.length === 0 })}
+            >
+              <i className={cn('icon-play', style.iconPlay)} />
+              <span className={style.text}>随机播放全部</span>
+            </div>
+          </div>
+          <div className={style.filter} ref="filter" />
+        </div>
+        <div className={style.bgLayer} ref="layer" />
+        <div className={style.songListWrapper} ref="list">
+          <SongList songs="songs" rank="rank" select="selectItem" />
+        </div>
+        <div
+          className={{
+            loadingContainer: true,
+            loadingContainerHide: songs.length > 0,
+          }}
+        >
+          <Loading />
+        </div>
+      </div>
+    );
   }
 }
-
-MusicList.propTypes = {};
 
 export default MusicList;

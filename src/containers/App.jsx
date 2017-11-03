@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import Tab from '../components/Tab';
 import Recommend from '../containers/Recommend';
 import SingerList from '../containers/SingerList';
-import { login } from '../actions/player.js';
+// import { login } from '../actions/player.js';
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 // import PropTypes from "prop-types";
@@ -35,9 +35,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    dispatch1: () => {
-      dispatch(login);
-    },
+    // dispatch1: () => {
+    //   dispatch(login);
+    // },
   };
 };
 

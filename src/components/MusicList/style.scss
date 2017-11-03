@@ -1,0 +1,127 @@
+@import '../../common/scss/fn.scss';
+.musicList {
+  position: fixed;
+  z-index: $z-index-Mask;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: $color-background;
+}
+
+.back {
+  position: absolute;
+  top: 0;
+  left: 0.12rem;
+  z-index: $z-index-Mask+1;
+}
+
+.iconBack {
+  display: block;
+  padding: 0.22rem;
+  font-size: $font-size-large-x;
+  color: $color-theme;
+}
+
+.title {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  z-index: $z-index-Mask+1;
+  width: 80%;
+  @include ellipsis();
+  text-align: center;
+  line-height: 0.88rem;
+  font-size: $font-size-large;
+  color: $color-text;
+}
+
+.bgImage {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-top: 5.25rem;
+  transform-origin: top;
+  background-size: cover;
+}
+
+.playWrapper {
+  position: absolute;
+  bottom: 0.4rem;
+  z-index: 50;
+  width: 100%;
+}
+
+.play {
+  box-sizing: border-box;
+  width: 2.7rem;
+  padding: 0.14rem 0;
+  margin: 0 auto;
+  text-align: center;
+  border: 0.02rem solid $color-theme;
+  color: $color-theme;
+  border-radius: 2rem;
+  font-size: 0;
+}
+
+.playHide {
+  display: none;
+}
+
+.iconPlay {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 0.12rem;
+  font-size: $font-size-medium-x;
+}
+
+.text {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: $font-size-small;
+}
+
+.filter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(7, 17, 27, 0.4);
+}
+
+.bgLayer {
+  position: relative;
+  height: 100%;
+  background: $color-background;
+}
+
+.list {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: $color-background;
+}
+
+.songListWrapper {
+  position: fixed;
+  top: 5.25rem;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: $color-background;
+  padding: 0.4rem 0.6rem;
+  box-sizing: border-box;
+}
+
+.loadingContainer {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.loadingContainerHide {
+  display: none;
+}
