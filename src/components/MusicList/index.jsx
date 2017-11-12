@@ -60,7 +60,7 @@ class MusicList extends PureComponent {
         </div>
         <div className={style.bgLayer} ref="layer" />
         <div className={style.songListWrapper} ref="list">
-          <SongList songs="songs" rank="rank" select="selectItem" />
+          <SongList songs={songs} rank={false} select="selectItem" />
         </div>
         <div
           className={{

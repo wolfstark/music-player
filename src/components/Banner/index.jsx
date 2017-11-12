@@ -74,7 +74,7 @@ class Banner extends Component {
     if (this.props.loop && !isResize) {
       width += 2 * sliderWidth;
     }
-    this.refs.sliderGroup.style.width = width + "px";
+    this.refs.sliderGroup.style.width = `${width}px`;
   }
   initSlider() {
     this.slider = new BScroll(this.refs.slider, {
