@@ -5,6 +5,7 @@ import createHistory from "history/createHashHistory";
 import configureStore from "./store";
 import RouterMap from "./router";
 import FastClick from "fastclick";
+import rootSaga from "./sagas";
 import registerServiceWorker from "./registerServiceWorker";
 import "./common/scss/index.scss";
 

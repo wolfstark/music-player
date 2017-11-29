@@ -6,10 +6,7 @@ class Scroll extends Component {
   static propsType = {
     probeType: PropTypes.number,
     click: PropTypes.bool,
-    listenScroll: PropTypes.bool,
     data: PropTypes.array.isRequired,
-    pullup: PropTypes.bool,
-    beforeScroll: PropTypes.bool,
     refreshDelay: PropTypes.number,
     onScroll: PropTypes.func,
     onScrollToEnd: PropTypes.func,
@@ -19,9 +16,6 @@ class Scroll extends Component {
   static defaultProps = {
     probeType: 1,
     click: true,
-    listenScroll: false,
-    pullup: false,
-    beforeScroll: false,
     refreshDelay: 20
   };
   constructor(props) {
@@ -41,11 +35,9 @@ class Scroll extends Component {
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {}
-
-  componentDidUpdate(prevProps, prevState) {}
-
-  componentWillUnmount() {}
+  componentWillUnmount() {
+      this.scroll.destroy
+  }
 
   render() {
     return <div ref="wrapper">{this.props.children}</div>;
@@ -56,14 +48,13 @@ class Scroll extends Component {
       click: this.props.click
     });
 
-    if (this.props.listenScroll) {
-      let me = this;
+    if (this.props.onScroll) {
       this.scroll.on("scroll", pos => {
-        me.props.onScroll(pos);
+        this.props.onScroll(pos);
       });
     }
 
-    if (this.props.pullup) {
+    if (this.props.onScrollToEnd) {
       this.scroll.on("scrollEnd", () => {
         if (this.scroll.y <= this.scroll.maxScrollY + 50) {
           this.props.onScrollToEnd();
@@ -71,9 +62,9 @@ class Scroll extends Component {
       });
     }
 
-    if (this.props.beforeScroll) {
+    if (this.props.onBeforeScroll) {
       this.scroll.on("beforeScrollStart", () => {
-        this, props.onBeforeScroll();
+        this.props.onBeforeScroll();
       });
     }
   }
