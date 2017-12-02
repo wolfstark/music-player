@@ -13,6 +13,7 @@ const history = createHistory({
   basename: process.env.NODE_ENV === "development" ? "" : "/music-player"
 });
 const store = configureStore({ history });
+store.runSaga(rootSaga);
 // Create a history of your choosing (we're using a browser history in this case)
 // Add the reducer to your store on the `router` key
 // Also apply our middleware for navigating

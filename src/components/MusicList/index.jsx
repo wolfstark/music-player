@@ -10,41 +10,35 @@ import classnames from "classnames/bind";
 import Scroll from "../Scroll";
 
 const cn = classnames.bind(style);
-const RESERVED_HEIGHT = 40;
+const transform = prefixStyle("transform");
+const backdrop = prefixStyle("backdrop-filter");
 
 class MusicList extends PureComponent {
   static propTypes = {
     singer: PropTypes.object,
-    songs: PropTypes.array
+    songs: PropTypes.array.isRequired,
+    setSelectPlay: PropTypes.func.isRequired
   };
   static defaultProps = {
     singer: {}
   };
   imageHeight: 0;
   minTransalteY: 0;
+  titleHeight: 0;
 
   constructor(props) {
     super(props);
   }
 
-  componentWillMount() {}
-
   componentDidMount() {
     this.imageHeight = this.refs.bgImage.clientHeight;
-    this.minTransalteY = -this.imageHeight + RESERVED_HEIGHT;
+    this.titleHeight = this.refs.title.clientHeight;
+    this.minTransalteY = -this.imageHeight + this.titleHeight;
     // this.refs.list.$el.style.top = `${this.imageHeight}px`;
     findDOMNode(this.refs.list).style.top = `${this.imageHeight}px`;
     // console.log(list);
     // ReactDOM.findDOMNod;
   }
-
-  componentWillReceiveProps(nextProps) {}
-
-  componentWillUpdate(nextProps, nextState) {}
-
-  componentDidUpdate(prevProps, prevState) {}
-
-  componentWillUnmount() {}
 
   render() {
     const { songs, singer } = this.props;
@@ -54,7 +48,9 @@ class MusicList extends PureComponent {
         <div className={style.back}>
           <i className={cn("icon-back", style.iconBack)} />
         </div>
-        <h1 className={style.title}>{name}</h1>
+        <h1 ref="title" className={style.title}>
+          {name}
+        </h1>
         <div
           className={style.bgImage}
           style={{ backgroundImage: `url(${avatar})` }}
@@ -86,10 +82,10 @@ class MusicList extends PureComponent {
           />
         </Scroll>
         <div
-          className={{
+          className={cn({
             loadingContainer: true,
             loadingContainerHide: songs.length > 0
-          }}
+          })}
         >
           <Loading />
         </div>
@@ -98,24 +94,50 @@ class MusicList extends PureComponent {
   }
   handlePlaylist(playlist) {
     const bottom = playlist.length > 0 ? "60px" : "";
-    this.$refs.list.$el.style.bottom = bottom;
-    this.$refs.list.refresh();
+    findDOMNode(this.$refs.list).style.bottom = bottom;
+    console.log(this.$refs.list);
+    this.refs.list.refresh();
   }
-  onScroll(pos) {
-    this.scrollY = pos.y;
+  onScroll({ y }) {
+    const translateY = Math.max(this.minTransalteY, y);
+    const percent = Math.abs(y / this.imageHeight);
+    let scale = 1;
+    let zIndex = 0;
+    let blur = 0;
+    if (y > 0) {
+      scale = 1 + percent;
+      zIndex = 10;
+    } else {
+      blur = Math.min(20, percent * 20);
+    }
+
+    this.refs.layer.style[transform] = `translate3d(0,${translateY}px,0)`;
+    this.refs.filter.style[backdrop] = `blur(${blur}px)`;
+    if (y < this.minTransalteY) {
+      zIndex = 10;
+      this.refs.bgImage.style.paddingTop = 0;
+      this.refs.bgImage.style.height = `${this.titleHeight}px`;
+      this.refs.playBtn.style.display = "none";
+    } else {
+      this.refs.bgImage.style.paddingTop = "5.25rem";
+      this.refs.bgImage.style.height = 0;
+      this.refs.playBtn.style.display = "";
+    }
+    this.refs.bgImage.style[transform] = `scale(${scale})`;
+    this.refs.bgImage.style.zIndex = zIndex;
   }
   back() {
     this.$router.back();
   }
-  selectItem(item, index) {
-    this.selectPlay({
-      list: this.songs,
+  selectItem(index) {
+    this.props.setSelectPlay({
+      list: this.props.songs,
       index
     });
   }
   random() {
     this.randomPlay({
-      list: this.songs
+      list: this.state.songs
     });
   }
 }

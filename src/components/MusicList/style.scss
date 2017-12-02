@@ -1,4 +1,4 @@
-@import '../../common/scss/fn.scss';
+@import "../../common/scss/fn.scss";
 .musicList {
   position: fixed;
   z-index: $z-index-Mask;
@@ -8,7 +8,13 @@
   right: 0;
   background: $color-background;
 }
-
+.list {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: $color-background;
+}
 .back {
   position: absolute;
   top: 0;

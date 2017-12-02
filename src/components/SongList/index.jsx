@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import style from "./style.scss";
+import classnames from "classnames/bind";
+
+const cn = classnames.bind(style);
 
 class SongList extends Component {
   static propsType = {
@@ -28,22 +31,24 @@ class SongList extends Component {
   componentWillUnmount() {}
 
   render() {
+    const rank = this.props.rank;
     return (
       <div>
         <ul>
           {this.props.songs.map((song, index) => (
             <li
-              onClick={this.selectItem(song, index).bind(this)}
+              key={index}
+              onClick={this.selectItem.bind(this, index)}
               className={style.item}
             >
-              <div className={style.rank} v-show="rank">
+              <div className={cn({ rank: true, rankHide: !rank })}>
                 <span className={this.getRankCls(index)}>
                   {this.getRankText(index)}
                 </span>
               </div>
-              <div className="content">
-                <h2 className="name">{song.name}</h2>
-                <p className="desc">{this.getDesc(song)}</p>
+              <div className={style.content}>
+                <h2 className={style.name}>{song.name}</h2>
+                <p className={style.desc}>{this.getDesc(song)}</p>
               </div>
             </li>
           ))}
@@ -51,8 +56,8 @@ class SongList extends Component {
       </div>
     );
   }
-  selectItem(item, index) {
-    this.props.selectItem(item, index);
+  selectItem(index) {
+    this.props.selectItem(index);
   }
   getDesc(song) {
     return `${song.singer}·${song.album}`;

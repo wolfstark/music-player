@@ -1,27 +1,27 @@
-import { connect } from 'react-redux';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { bindActionCreators } from 'redux';
-import * as playersActions from '../../actions/player';
-import { Route } from 'react-router-dom';
-import ListView from '../../components/ListView';
-import { getSingerList } from '../../api/singer';
-import { ERR_OK } from '../../api/config.js';
-import Singer from '../../common/js/singer';
-import SingerDetail from '../SingerDetail';
+import { connect } from "react-redux";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
+import * as playersActions from "../../actions/player";
+import { Route } from "react-router-dom";
+import ListView from "../../components/ListView";
+import { getSingerList } from "../../api/singer";
+import { ERR_OK } from "../../api/config.js";
+import Singer from "../../common/js/singer";
+import SingerDetail from "../SingerDetail";
 
 class SingerList extends Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
+    match: PropTypes.object.isRequired
   };
   constructor(props, context) {
     super(props, context);
     this.state = {
-      singers: [],
+      singers: []
     };
     this.HOT_SINGER_LEN = 10;
-    this.HOT_NAME = '热门';
+    this.HOT_NAME = "热门";
   }
   render() {
     const { url } = this.props.match;
@@ -47,15 +47,15 @@ class SingerList extends Component {
     let map = {
       hot: {
         title: this.HOT_NAME,
-        items: [],
-      },
+        items: []
+      }
     };
     list.forEach((item, index) => {
       if (index < this.HOT_SINGER_LEN) {
         map.hot.items.push(
           new Singer({
             name: item.Fsinger_name,
-            id: item.Fsinger_mid,
+            id: item.Fsinger_mid
           })
         );
       }
@@ -63,13 +63,13 @@ class SingerList extends Component {
       if (!map[key]) {
         map[key] = {
           title: key,
-          items: [],
+          items: []
         };
       }
       map[key].items.push(
         new Singer({
           name: item.Fsinger_name,
-          id: item.Fsinger_mid,
+          id: item.Fsinger_mid
         })
       );
     });
@@ -103,7 +103,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    setSingerAction: bindActionCreators(playersActions, dispatch).setSinger,
+    setSingerAction: bindActionCreators(playersActions, dispatch).setSinger
   };
 };
 

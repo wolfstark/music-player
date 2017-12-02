@@ -10,7 +10,8 @@ class Scroll extends Component {
     refreshDelay: PropTypes.number,
     onScroll: PropTypes.func,
     onScrollToEnd: PropTypes.func,
-    onBeforeScroll: PropTypes.func
+    onBeforeScroll: PropTypes.func,
+    className: PropTypes.string
   };
 
   static defaultProps = {
@@ -36,11 +37,15 @@ class Scroll extends Component {
   }
 
   componentWillUnmount() {
-      this.scroll.destroy
+    this.scroll.destroy;
   }
 
   render() {
-    return <div ref="wrapper">{this.props.children}</div>;
+    return (
+      <div className={this.props.className} ref="wrapper">
+        {this.props.children}
+      </div>
+    );
   }
   _initScroll() {
     this.scroll = new BScroll(this.refs.wrapper, {

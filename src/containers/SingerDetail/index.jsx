@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import MusicList from '../../components/MusicList';
-import { ERR_OK } from '../../api/config';
-import { getSingerDetail } from '../../api/singer';
-import { createSong } from '../../common/js/song';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import MusicList from "../../components/MusicList";
+import { ERR_OK } from "../../api/config";
+import { getSingerDetail } from "../../api/singer";
+import { createSong } from "../../common/js/song";
+import { bindActionCreators } from "redux";
+import * as playersActions from "../../actions/player";
 
 // import { createSong } from '../../common/js/song';
 
@@ -14,27 +16,30 @@ class SingerDetail extends Component {
   static propTypes = {
     singer: PropTypes.object,
     history: PropTypes.object.isRequired,
+    setSelectPlay: PropTypes.func.isRequired
   };
   static defaultProps = {
-    singer: {},
+    singer: {}
   };
   constructor(props) {
     super(props);
     this.state = {
-      songs: [],
+      songs: []
     };
     this._getDetail();
   }
   render() {
-    const { singer } = this.props;
+    const { singer, setSelectPlay } = this.props;
     const { songs } = this.state;
-    return <MusicList singer={singer} songs={songs} />;
+    return (
+      <MusicList setSelectPlay={setSelectPlay} singer={singer} songs={songs} />
+    );
   }
 
   async _getDetail() {
     const { history, singer } = this.props;
     if (!singer.id) {
-      history.push('/singer');
+      history.push("/singer");
       return;
     }
     const { code, data } = await getSingerDetail(singer.id);
@@ -63,16 +68,14 @@ const mapStateToProps = (state, ownProps) => {
   //   songs = this._normalizeSongs(res.data.list);
   // }
   return {
-    singer,
+    singer
     // songs,
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    // dispatch1: () => {
-    //   dispatch(actionCreator);
-    // },
+    setSelectPlay: bindActionCreators(playersActions, dispatch).setSelectPlay
   };
 };
 
