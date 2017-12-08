@@ -14,21 +14,6 @@ class SongList extends Component {
   static defaultProps = {
     rank: false
   };
-  constructor(props) {
-    super(props);
-  }
-
-  componentWillMount() {}
-
-  componentDidMount() {}
-
-  componentWillReceiveProps(nextProps) {}
-
-  componentWillUpdate(nextProps, nextState) {}
-
-  componentDidUpdate(prevProps, prevState) {}
-
-  componentWillUnmount() {}
 
   render() {
     const rank = this.props.rank;

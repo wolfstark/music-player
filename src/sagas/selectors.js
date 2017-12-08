@@ -1,1 +1,1 @@
-export const getMode = state => state.mode;
+export const getMode = state => state.player.mode;

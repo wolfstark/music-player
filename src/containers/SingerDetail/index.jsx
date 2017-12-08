@@ -8,10 +8,6 @@ import { createSong } from "../../common/js/song";
 import { bindActionCreators } from "redux";
 import * as playersActions from "../../actions/player";
 
-// import { createSong } from '../../common/js/song';
-
-// import { actionCreator } from 'actionCreatorPath';
-
 class SingerDetail extends Component {
   static propTypes = {
     singer: PropTypes.object,
@@ -62,14 +58,8 @@ class SingerDetail extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   const singer = state.player.singer;
-  // const res = getSingerDetail(singer.id);
-  // let songs;
-  // if (res.code === ERR_OK) {
-  //   songs = this._normalizeSongs(res.data.list);
-  // }
   return {
     singer
-    // songs,
   };
 };
 

@@ -37,7 +37,7 @@ class Scroll extends Component {
   }
 
   componentWillUnmount() {
-    this.scroll.destroy;
+    this.scroll.destroy();
   }
 
   render() {

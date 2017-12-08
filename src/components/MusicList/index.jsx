@@ -26,20 +26,12 @@ class MusicList extends PureComponent {
   minTransalteY: 0;
   titleHeight: 0;
 
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     this.imageHeight = this.refs.bgImage.clientHeight;
     this.titleHeight = this.refs.title.clientHeight;
     this.minTransalteY = -this.imageHeight + this.titleHeight;
-    // this.refs.list.$el.style.top = `${this.imageHeight}px`;
     findDOMNode(this.refs.list).style.top = `${this.imageHeight}px`;
-    // console.log(list);
-    // ReactDOM.findDOMNod;
   }
-
   render() {
     const { songs, singer } = this.props;
     const { name, avatar } = singer;
