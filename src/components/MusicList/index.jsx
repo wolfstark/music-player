@@ -1,12 +1,12 @@
 import React, { PureComponent } from "react";
 import { findDOMNode } from "react-dom";
 import PropTypes from "prop-types";
+import classnames from "classnames/bind";
 import { prefixStyle } from "../../common/js/dom";
-// import { playlistMixin } from '../../common/js/mixin';
+import { playlistHOC } from "../../common/js/HOCs";
 import Loading from "../Loading";
 import style from "./style.scss";
 import SongList from "../SongList";
-import classnames from "classnames/bind";
 import Scroll from "../Scroll";
 
 const cn = classnames.bind(style);
@@ -17,7 +17,8 @@ class MusicList extends PureComponent {
   static propTypes = {
     singer: PropTypes.object,
     songs: PropTypes.array.isRequired,
-    setSelectPlay: PropTypes.func.isRequired
+    setSelectPlay: PropTypes.func.isRequired,
+    history: PropTypes.object
   };
   static defaultProps = {
     singer: {}
@@ -37,7 +38,7 @@ class MusicList extends PureComponent {
     const { name, avatar } = singer;
     return (
       <div className={style.musicList}>
-        <div className={style.back}>
+        <div onClick={this.back} className={style.back}>
           <i className={cn("icon-back", style.iconBack)} />
         </div>
         <h1 ref="title" className={style.title}>
@@ -72,22 +73,21 @@ class MusicList extends PureComponent {
             rank={false}
             selectItem={this.selectItem.bind(this)}
           />
+          <div
+            className={cn({
+              loadingContainer: true,
+              loadingContainerHide: songs.length > 0
+            })}
+          >
+            <Loading />
+          </div>
         </Scroll>
-        <div
-          className={cn({
-            loadingContainer: true,
-            loadingContainerHide: songs.length > 0
-          })}
-        >
-          <Loading />
-        </div>
       </div>
     );
   }
   handlePlaylist(playlist) {
-    const bottom = playlist.length > 0 ? "60px" : "";
-    findDOMNode(this.$refs.list).style.bottom = bottom;
-    console.log(this.$refs.list);
+    const bottom = playlist.length > 0 ? "1.2rem" : "";
+    findDOMNode(this.refs.list).style.bottom = bottom;
     this.refs.list.refresh();
   }
   onScroll({ y }) {
@@ -119,7 +119,7 @@ class MusicList extends PureComponent {
     this.refs.bgImage.style.zIndex = zIndex;
   }
   back() {
-    this.$router.back();
+    this.props.history.back();
   }
   selectItem(index) {
     this.props.setSelectPlay({
@@ -134,4 +134,4 @@ class MusicList extends PureComponent {
   }
 }
 
-export default MusicList;
+export default playlistHOC(MusicList);

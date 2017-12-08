@@ -90,8 +90,8 @@ class SingerList extends Component {
     return hot.concat(ret);
   }
   selectSinger(singer) {
-    this.props.history.push(`/singer/${singer.id}`);
     this.props.setSingerAction(singer);
+    this.props.history.push(`/singer/${singer.id}`);
   }
 }
 
