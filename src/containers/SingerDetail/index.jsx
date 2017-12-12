@@ -1,12 +1,13 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import MusicList from "../../components/MusicList";
-import { ERR_OK } from "../../api/config";
-import { getSingerDetail } from "../../api/singer";
-import { createSong } from "../../common/js/song";
-import { bindActionCreators } from "redux";
-import * as playersActions from "../../actions/player";
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as playersActions from '../../actions/player';
+import { ERR_OK } from '../../api/config';
+import { getSingerDetail } from '../../api/singer';
+import { createSong } from '../../common/js/song';
+import MusicList from '../../components/MusicList';
 
 class SingerDetail extends Component {
   static propTypes = {

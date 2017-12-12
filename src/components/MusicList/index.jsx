@@ -1,13 +1,14 @@
-import React, { PureComponent } from "react";
-import { findDOMNode } from "react-dom";
-import PropTypes from "prop-types";
-import classnames from "classnames/bind";
-import { prefixStyle } from "../../common/js/dom";
-import { playlistHOC } from "../../common/js/HOCs";
-import Loading from "../Loading";
-import style from "./style.scss";
-import SongList from "../SongList";
-import Scroll from "../Scroll";
+import classnames from 'classnames/bind';
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
+import { findDOMNode } from 'react-dom';
+
+import { prefixStyle } from '../../common/js/dom';
+import { playlistHOC } from '../../common/js/HOCs';
+import Loading from '../Loading';
+import Scroll from '../Scroll';
+import SongList from '../SongList';
+import style from './style.scss';
 
 const cn = classnames.bind(style);
 const transform = prefixStyle("transform");
