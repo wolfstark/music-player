@@ -53,3 +53,8 @@ export const setSelectPlay = index => ({
   type: actionTypes.SET_SELECT_PLAY,
   payload: index
 });
+
+export const setRandomPlay = list => ({
+  type: actionTypes.SET_RANDOM_PLAY,
+  payload: list
+});

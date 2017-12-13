@@ -1,45 +1,30 @@
 import classnames from 'classnames/bind';
 import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
-import { findDOMNode } from 'react-dom';
 
-import { prefixStyle } from '../../common/js/dom';
-import { playlistHOC } from '../../common/js/HOCs';
 import Loading from '../Loading';
 import Scroll from '../Scroll';
 import SongList from '../SongList';
 import style from './style.scss';
 
 const cn = classnames.bind(style);
-const transform = prefixStyle("transform");
-const backdrop = prefixStyle("backdrop-filter");
 
 class MusicList extends PureComponent {
   static propTypes = {
-    singer: PropTypes.object,
+    singer: PropTypes.object.isRequired,
     songs: PropTypes.array.isRequired,
-    setSelectPlay: PropTypes.func.isRequired,
-    history: PropTypes.object
+    onScroll: PropTypes.func.isRequired,
+    back: PropTypes.func.isRequired,
+    random: PropTypes.func.isRequired,
+    selectItem: PropTypes.func.isRequired
   };
-  static defaultProps = {
-    singer: {}
-  };
-  imageHeight: 0;
-  minTransalteY: 0;
-  titleHeight: 0;
 
-  componentDidMount() {
-    this.imageHeight = this.refs.bgImage.clientHeight;
-    this.titleHeight = this.refs.title.clientHeight;
-    this.minTransalteY = -this.imageHeight + this.titleHeight;
-    findDOMNode(this.refs.list).style.top = `${this.imageHeight}px`;
-  }
   render() {
-    const { songs, singer } = this.props;
+    const { songs, singer, onScroll, back, random, selectItem } = this.props;
     const { name, avatar } = singer;
     return (
       <div className={style.musicList}>
-        <div onClick={this.back} className={style.back}>
+        <div onClick={back} className={style.back}>
           <i className={cn("icon-back", style.iconBack)} />
         </div>
         <h1 ref="title" className={style.title}>
@@ -53,6 +38,7 @@ class MusicList extends PureComponent {
           <div className={style.playWrapper}>
             <div
               ref="playBtn"
+              onClick={random}
               className={cn({ play: true, playHide: songs.length === 0 })}
             >
               <i className={cn("icon-play", style.iconPlay)} />
@@ -64,7 +50,7 @@ class MusicList extends PureComponent {
         <div className={style.bgLayer} ref="layer" />
         <Scroll
           data={songs}
-          onScroll={this.onScroll.bind(this)}
+          onScroll={onScroll}
           probeType={3}
           className={style.songListWrapper}
           ref="list"
@@ -72,7 +58,7 @@ class MusicList extends PureComponent {
           <SongList
             songs={songs}
             rank={false}
-            selectItem={this.selectItem.bind(this)}
+            selectItem={selectItem}
           />
           <div
             className={cn({
@@ -86,53 +72,6 @@ class MusicList extends PureComponent {
       </div>
     );
   }
-  handlePlaylist(playlist) {
-    const bottom = playlist.length > 0 ? "1.2rem" : "";
-    findDOMNode(this.refs.list).style.bottom = bottom;
-    this.refs.list.refresh();
-  }
-  onScroll({ y }) {
-    const translateY = Math.max(this.minTransalteY, y);
-    const percent = Math.abs(y / this.imageHeight);
-    let scale = 1;
-    let zIndex = 0;
-    let blur = 0;
-    if (y > 0) {
-      scale = 1 + percent;
-      zIndex = 10;
-    } else {
-      blur = Math.min(20, percent * 20);
-    }
-
-    this.refs.layer.style[transform] = `translate3d(0,${translateY}px,0)`;
-    this.refs.filter.style[backdrop] = `blur(${blur}px)`;
-    if (y < this.minTransalteY) {
-      zIndex = 10;
-      this.refs.bgImage.style.paddingTop = 0;
-      this.refs.bgImage.style.height = `${this.titleHeight}px`;
-      this.refs.playBtn.style.display = "none";
-    } else {
-      this.refs.bgImage.style.paddingTop = "5.25rem";
-      this.refs.bgImage.style.height = 0;
-      this.refs.playBtn.style.display = "";
-    }
-    this.refs.bgImage.style[transform] = `scale(${scale})`;
-    this.refs.bgImage.style.zIndex = zIndex;
-  }
-  back() {
-    this.props.history.back();
-  }
-  selectItem(index) {
-    this.props.setSelectPlay({
-      list: this.props.songs,
-      index
-    });
-  }
-  random() {
-    this.randomPlay({
-      list: this.state.songs
-    });
-  }
 }
 
-export default playlistHOC(MusicList);
+export default MusicList;

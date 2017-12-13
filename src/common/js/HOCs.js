@@ -1,7 +1,7 @@
 // import { mapGetters, mapMutations, mapActions } from 'vuex';
-import React, { PureComponent, Component } from "react";
-import { playMode } from "./config";
-import { shuffle } from "./util";
+import React, { Component } from "react";
+// import { playMode } from "./config";
+// import { shuffle } from "./util";
 import PropTypes from "prop-types";
 
 export const playlistHOC = WrappedComponent =>
