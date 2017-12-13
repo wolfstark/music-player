@@ -31,6 +31,8 @@ export default function player(state = initialState, action) {
       return { ...state, fullScreen: action.payload };
     case actionTypes.SET_PLAYING_STATE:
       return { ...state, playing: action.payload };
+    case actionTypes.SET_PLAY_MODE:
+      return { ...state, mode: action.payload };
     default:
       return state;
   }

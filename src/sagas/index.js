@@ -15,6 +15,9 @@ function findIndex(list, song) {
 function* watchSelectPlay() {
   yield takeEvery(actionTypes.SET_SELECT_PLAY, selectPlay);
 }
+function* watchRandomPlay() {
+  yield takeEvery(actionTypes.SET_RANDOM_PLAY, randomPlay);
+}
 
 function* selectPlay({ payload }) {
   let { list, index } = payload;
@@ -33,7 +36,17 @@ function* selectPlay({ payload }) {
   yield put(playersActions.setFullScreen(true));
   yield put(playersActions.setPlayingState(true));
 }
+function* randomPlay({ payload }) {
+  const randomList = shuffle(payload);
+  yield put(playersActions.setPlayMode(playMode.random));
+  yield put(playersActions.setSequenceList(payload));
+  yield put(playersActions.setPlaylist(randomList));
+  yield put(playersActions.setCurrentIndex(0));
+  yield put(playersActions.setFullScreen(true));
+  yield put(playersActions.setPlayingState(true));
+}
 
 export default function* root() {
   yield fork(watchSelectPlay);
+  yield fork(watchRandomPlay);
 }
