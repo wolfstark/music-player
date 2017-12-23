@@ -84,14 +84,14 @@ export const playerHOC = WrappedComponent =>
       this.unsubscribe && this.unsubscribe();
     }
     updateHook() {
-      const { store } = this.context;
+      const { getState } = this.context.store;
       const {
         playlist,
         sequenceList,
         currentIndex,
         mode,
         favoriteList
-      } = store.getState().player;
+      } = getState().player;
       this.setState({
         playlist,
         sequenceList,
