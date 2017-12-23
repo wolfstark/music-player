@@ -146,7 +146,7 @@ export const playerHOC = WrappedComponent =>
       return (
         <WrappedComponent
           ref="WrappedComponent"
-          iconMode={this.iconMode(bind)}
+          iconMode={this.iconMode.bind(this)}
           getFavoriteIcon={this.getFavoriteIcon.bind(this)}
           toggleFavorite={this.toggleFavorite.bind(this)}
           changeMode={this.changeMode.bind(this)}
