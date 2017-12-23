@@ -4,6 +4,7 @@ import style from "./style.scss";
 // import PropTypes from "prop-types";
 import classnames from "classnames/bind";
 
+
 const cn = classnames.bind(style);
 
 const Player = props => {
@@ -29,10 +30,10 @@ const Player = props => {
     format,
     currentTime,
     currentSong,
-    cdCls,
     currentLineNum,
     currentShow,
-    disableCls
+    playing,
+    getFavoriteIcon
   } = props;
   return (
     <div>
@@ -56,7 +57,7 @@ const Player = props => {
         >
           <div className="middle-l" ref="middleL">
             <div className="cd-wrapper" ref="cdWrapper">
-              <div className={cn("cd", cdCls())}>
+              <div className={cn("cd", cdCls(playing))}>
                 <img className="image" alt="" src="currentSong.image" />
               </div>
             </div>
@@ -107,20 +108,19 @@ const Player = props => {
             <div className="icon i-left" click="changeMode">
               <i className="iconMode" />
             </div>
-            <div className={cn("iLeft", disableCls())}>
+            <div className={cn("iLeft", disableCls(playing))}>
               <i click="prev" className="icon-prev" />
             </div>
-            <div className="icon i-center" className="disableCls">
-              <i click="togglePlaying" className="playIcon" />
+            <div className={cn("iCenter", disableCls(playing))}>
+              <i click="togglePlaying" className={playIcon(playing)} />
             </div>
-            <div className="icon i-right" className="disableCls">
+            <div className={cn("iRight", disableCls(playing))}>
               <i click="next" className="icon-next" />
             </div>
             <div className="icon i-right">
               <i
                 click="toggleFavorite(currentSong)"
-                className="icon"
-                className="getFavoriteIcon(currentSong)"
+                className={cn("icon", getFavoriteIcon(currentSong))}
               />
             </div>
           </div>
@@ -129,6 +129,7 @@ const Player = props => {
       <div className="mini-player" v-show="!fullScreen" click="open">
         <div className="icon">
           <img
+            alt=""
             className="cdCls"
             width="40"
             height="40"
@@ -136,17 +137,16 @@ const Player = props => {
           />
         </div>
         <div className="text">
-          <h2 className="name" v-html="currentSong.name" />
-          <p className="desc" v-html="currentSong.singer" />
+          <h2 className="name">{currentSong.name}</h2>
+          <p className="desc">{currentSong.singer}</p>
         </div>
         <div className="control">
-          <progress-circle radius="radius" percent="percent">
+          {/* <ProgressCircle radius="radius" percent="percent">
             <i
               click="togglePlaying"
-              className="icon-mini"
-              className="miniIcon"
+              className={cn("iconMini", miniIcon(playing))}
             />
-          </progress-circle>
+          </ProgressCircle> */}
         </div>
         <div className="control" click="showPlaylist">
           <i className="icon-playlist" />
@@ -165,5 +165,16 @@ const Player = props => {
   );
 };
 // }
-
+const cdCls = playing => {
+  return playing ? "play" : "play pause";
+};
+const playIcon = playing => {
+  return playing ? "icon-pause" : "icon-play";
+};
+// const miniIcon = playing => {
+//   return playing ? "icon-pause-mini" : "icon-play-mini";
+// };
+const disableCls = songReady => {
+  return songReady ? "" : "disable";
+};
 export default Player;

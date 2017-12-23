@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import Tab from "../components/Tab";
 import Recommend from "../containers/Recommend";
 import SingerList from "../containers/SingerList";
-import Player from "../components/Player";
+import PlayerContainer from "../containers/PlayerContainer";
 // import { login } from '../actions/player.js';
 import React, { Component, Fragment } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -20,7 +20,7 @@ class App extends Component {
           <Route path="/recommend" component={Recommend} />
           <Route path="/singer" component={SingerList} />
         </Switch>
-        <Player />
+        <PlayerContainer />
       </Fragment>
     );
   }
