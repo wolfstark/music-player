@@ -4,25 +4,9 @@ import style from "./style.scss";
 // import PropTypes from "prop-types";
 import classnames from "classnames/bind";
 
-
 const cn = classnames.bind(style);
 
 const Player = props => {
-  // static propTypes = {
-  //   playlist: PropTypes.array,
-  //   playingLyric: PropTypes.string,
-  //   currentLyric: PropTypes.object,
-  //   format: PropTypes.func,
-  //   currentTime: PropTypes.number,
-  //   currentSong: PropTypes.object,
-  //   cdCls: PropTypes.func,
-  //   currentLineNum: PropTypes.number,
-  //   currentShow: PropTypes.string,
-  //   disableCls: PropTypes.func,
-  //   songReady:PropTypes.bool
-  // };
-
-  // render() {
   const {
     playlist,
     playingLyric,

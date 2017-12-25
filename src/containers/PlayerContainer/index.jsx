@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { playerHOC } from "../../common/js/HOCs";
 
 class PlayerContainer extends Component {
   constructor(props) {
@@ -13,4 +15,4 @@ class PlayerContainer extends Component {
 
 PlayerContainer.propTypes = {};
 
-export default PlayerContainer;
+export default connect()(playerHOC(PlayerContainer));
