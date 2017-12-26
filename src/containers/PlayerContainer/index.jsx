@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { playerHOC } from "../../common/js/HOCs";
-import Player from '../../components/Player'
+import Player from "../../components/Player";
+import animations from "create-keyframe-animation";
+import Lyric from "lyric-parser";
 
 class PlayerContainer extends Component {
   static propTypes = {

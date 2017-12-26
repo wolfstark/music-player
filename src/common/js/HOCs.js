@@ -1,10 +1,11 @@
 // @ts-check
-import PropTypes from "prop-types";
-import React, { Component } from "react";
-import { bindActionCreators } from "redux";
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 
-import { playMode } from "../../common/js/config";
-import { shuffle } from "../../common/js/util";
+import * as playersActions from '../../actions/player';
+import { playMode } from '../../common/js/config';
+import { shuffle } from '../../common/js/util';
 
 /**
  * 为Component注入playlist,并在list变更时执行handlePlaylist钩子
@@ -66,13 +67,13 @@ export const playerHOC = WrappedComponent =>
         favoriteList: []
       };
       const { dispatch } = this.context.store;
-      const playersActions = bindActionCreators(playersActions, dispatch);
+      const playersActionBind = bindActionCreators(playersActions, dispatch);
 
-      this.setCurrentIndex = playersActions.setCurrentIndex;
-      this.setPlayMode = playersActions.setPlayMode;
-      this.setPlaylist = playersActions.setPlaylist;
-      this.deleteFavoriteList = playersActions.deleteFavoriteList;
-      this.saveFavoriteList = playersActions.saveFavoriteList;
+      this.setCurrentIndex = playersActionBind.setCurrentIndex;
+      this.setPlayMode = playersActionBind.setPlayMode;
+      this.setPlaylist = playersActionBind.setPlaylist;
+      this.deleteFavoriteList = playersActionBind.deleteFavoriteList;
+      this.saveFavoriteList = playersActionBind.saveFavoriteList;
     }
     componentDidMount() {
       const { store } = this.context;
